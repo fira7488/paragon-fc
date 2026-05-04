@@ -40,3 +40,37 @@ export const login = (username, password) =>
 
 // --- Stats ---
 export const fetchStats = () => api.get("/stats").then((res) => res.data);
+// ---- Matches ----
+export const fetchMatches = () => api.get("/matches").then((res) => res.data);
+export const addMatch = (matchData, token) =>
+  api
+    .post("/matches", matchData, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((res) => res.data);
+export const updateMatchResult = (id, resultData, token) =>
+  api
+    .put(`/matches/${id}/result`, resultData, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((res) => res.data);
+
+// ---- Gallery Admin ----
+export const deleteGalleryImage = (id, token) =>
+  api
+    .delete(`/gallery/${id}`, { headers: { Authorization: `Bearer ${token}` } })
+    .then((res) => res.data);
+
+// ---- Registrations Admin ----
+export const fetchRegistrations = (token) =>
+  api
+    .get("/registrations", { headers: { Authorization: `Bearer ${token}` } })
+    .then((res) => res.data);
+export const updateRegistrationStatus = (id, status, token) =>
+  api
+    .put(
+      `/registrations/${id}/status`,
+      { status },
+      { headers: { Authorization: `Bearer ${token}` } },
+    )
+    .then((res) => res.data);
