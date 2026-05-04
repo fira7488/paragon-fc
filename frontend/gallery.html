@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Paragon FC – Memory Gallery</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        background: #0a0a0a;
+        color: #fff;
+      }
+      nav {
+        background: rgba(0, 0, 0, 0.9);
+        padding: 1rem 2rem;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        display: flex;
+        gap: 2rem;
+      }
+      nav a {
+        color: #c9a227;
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .container {
+        max-width: 1400px;
+        margin: 2rem auto;
+        padding: 0 2rem;
+      }
+      .upload-card {
+        background: #111;
+        border-radius: 20px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        text-align: center;
+        border: 2px dashed #c9a227;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .upload-card:hover {
+        background: #1a1a1a;
+      }
+      .preview-area {
+        margin-top: 1rem;
+        display: none;
+      }
+      .preview-area img {
+        max-width: 200px;
+        border-radius: 10px;
+        margin: 1rem 0;
+      }
+      .upload-form {
+        display: none;
+        background: #1a1a2e;
+        padding: 1.5rem;
+        border-radius: 20px;
+        margin-top: 1rem;
+      }
+      .upload-form input,
+      .upload-form textarea,
+      .upload-form select {
+        width: 100%;
+        padding: 0.75rem;
+        margin: 0.5rem 0;
+        background: #0a0a0a;
+        border: 1px solid #333;
+        color: white;
+        border-radius: 10px;
+      }
+      .upload-form button {
+        background: #c9a227;
+        color: #000;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+      .gallery-card {
+        background: #111;
+        border-radius: 15px;
+        overflow: hidden;
+        transition: 0.3s;
+      }
+      .gallery-card:hover {
+        transform: translateY(-5px);
+      }
+      .gallery-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+      .card-info {
+        padding: 1rem;
+      }
+      .card-title {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+      }
+      .card-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.8rem;
+        color: #aaa;
+      }
+      .loader {
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(255, 255, 255, 0.2);
+        border-top-color: #c9a227;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 2rem auto;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="index-ultimate.html">🏠 Home</a>
+      <a href="gallery.html" style="color: #fff">📸 Gallery</a>
+      <a href="admin.html">🔐 Admin</a>
+    </nav>
+    <div class="container">
+      <div
+        class="upload-card"
+        onclick="document.getElementById('fileInput').click()"
+      >
+        <i class="fas fa-cloud-upload-alt" style="font-size: 2rem"></i>
+        <p>Click to select a photo</p>
+        <input
+          type="file"
+          id="fileInput"
+          accept="image/*"
+          style="display: none"
+        />
+      </div>
+      <div id="previewArea" class="preview-area"></div>
+      <div id="uploadForm" class="upload-form">
+        <input
+          type="text"
+          id="uploadTitle"
+          placeholder="Title (e.g., Championship celebration)"
+        />
+        <textarea
+          id="uploadDesc"
+          rows="3"
+          placeholder="Describe this memory..."
+        ></textarea>
+        <select id="uploadCategory">
+          <option value="Match">⚽ Match Day</option>
+          <option value="Training">🏃 Training</option>
+          <option value="Celebration">🎉 Celebration</option>
+          <option value="Team Photo">📸 Team Photo</option>
+          <option value="Fan">❤️ Fan Moment</option>
+        </select>
+        <input
+          type="text"
+          id="uploaderName"
+          placeholder="Your name (optional)"
+          value="Fan"
+        />
+        <button onclick="submitUpload()">📤 Share Memory</button>
+        <button
+          onclick="cancelUpload()"
+          style="background: #333; margin-top: 0.5rem"
+        >
+          Cancel
+        </button>
+      </div>
+      <div class="gallery-grid" id="galleryGrid">
+        <div class="loader"></div>
+      </div>
+    </div>
+
+    <script>
+      const API_URL =
+        window.location.protocol === "file:" ||
+        window.location.hostname === "localhost"
+          ? "http://localhost:5000/api"
+          : "https://your-backend.onrender.com/api";
+      const BACKEND_URL = API_URL.replace("/api", ""); // -> 'http://localhost:5000' // change to your live backend if needed
+
+      let selectedFile = null;
+
+      // Preview image when selected
+      document.getElementById("fileInput").addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        selectedFile = file;
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const previewDiv = document.getElementById("previewArea");
+          previewDiv.innerHTML = `<img src="${event.target.result}" alt="preview"><p>${file.name}</p>`;
+          previewDiv.style.display = "block";
+          document.getElementById("uploadForm").style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      });
+
+      async function submitUpload() {
+        if (!selectedFile) {
+          alert("Please select an image first");
+          return;
+        }
+        const title = document.getElementById("uploadTitle").value;
+        if (!title) {
+          alert("Please enter a title");
+          return;
+        }
+        const formData = new FormData();
+        formData.append("image", selectedFile);
+        formData.append(
+          "data",
+          JSON.stringify({
+            title: title,
+            description: document.getElementById("uploadDesc").value,
+            category: document.getElementById("uploadCategory").value,
+            uploadedBy: document.getElementById("uploaderName").value || "Fan",
+          }),
+        );
+
+        try {
+          const res = await fetch(`${API_URL}/gallery/upload`, {
+            method: "POST",
+            body: formData,
+          });
+          if (res.ok) {
+            alert("✅ Memory uploaded!");
+            cancelUpload();
+            loadGallery(); // reload gallery
+          } else {
+            const err = await res.json();
+            alert("Upload failed: " + (err.error || "Unknown error"));
+          }
+        } catch (err) {
+          alert("Network error: " + err.message);
+        }
+      }
+
+      function cancelUpload() {
+        selectedFile = null;
+        document.getElementById("fileInput").value = "";
+        document.getElementById("previewArea").innerHTML = "";
+        document.getElementById("previewArea").style.display = "none";
+        document.getElementById("uploadForm").style.display = "none";
+        document.getElementById("uploadTitle").value = "";
+        document.getElementById("uploadDesc").value = "";
+      }
+
+     async function loadGallery() {
+  const grid = document.getElementById('galleryGrid');
+  grid.innerHTML = '<div class="loader"></div>';
+  try {
+    const res = await fetch(`${API_URL}/gallery`);
+    if (!res.ok) throw new Error('Failed to fetch gallery');
+    const data = await res.json();
+    const images = Array.isArray(data) ? data : (data.data || []);
+    if (!images.length) {
+      grid.innerHTML = '<div style="text-align:center;">No memories yet. Be the first to upload!</div>';
+      return;
+    }
+    grid.innerHTML = images.map(img => `
+      <div class="gallery-card">
+        <img src="${BACKEND_URL}${img.imageUrl}" onerror="this.src='https://placehold.co/400x250/1a1a2e/c9a227?text=Image+not+found'">
+        <div class="card-info">
+          <div class="card-title">${escapeHtml(img.title)}</div>
+          <div class="card-meta">
+            <span>❤️ ${img.likes || 0}</span>
+            <span>👁️ ${img.views || 0}</span>
+            <span>📅 ${new Date(img.date).toLocaleDateString()}</span>
+            <span>👤 ${escapeHtml(img.uploadedBy || 'Fan')}</span>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  } catch (err) {
+    grid.innerHTML = '<div style="text-align:center; color:#ef4444;">❌ Failed to load gallery</div>';
+  }
+}
+
+      function escapeHtml(str) {
+        if (!str) return "";
+        return str.replace(/[&<>]/g, function (m) {
+          if (m === "&") return "&amp;";
+          if (m === "<") return "&lt;";
+          if (m === ">") return "&gt;";
+          return m;
+        });
+      }
+
+      loadGallery();
+    </script>
+  </body>
+</html>
