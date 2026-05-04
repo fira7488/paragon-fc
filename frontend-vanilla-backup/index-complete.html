@@ -1,0 +1,663 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Paragon FC – ASTU Batch Cup Champions 🏆</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;500;600;700;900&family=Barlow:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: #080808;
+        color: #ffffff;
+        font-family: "Barlow", sans-serif;
+        overflow-x: hidden;
+      }
+
+      /* Navigation */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 48px;
+        transition: all 0.4s;
+      }
+
+      nav.scrolled {
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .logo {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 28px;
+        letter-spacing: 4px;
+        text-decoration: none;
+        color: white;
+      }
+
+      .logo span {
+        color: #c9a227;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 36px;
+        list-style: none;
+        align-items: center;
+      }
+
+      .nav-links a {
+        color: rgba(255, 255, 255, 0.65);
+        text-decoration: none;
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 600;
+        font-size: 13px;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        transition: color 0.3s;
+        cursor: pointer;
+      }
+
+      .nav-links a:hover {
+        color: white;
+      }
+
+      /* Championship Banner */
+      .championship-banner {
+        background: linear-gradient(135deg, #c9a227, #ffd700);
+        color: #000;
+        text-align: center;
+        padding: 12px;
+        margin-top: 80px;
+        font-weight: bold;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.8;
+        }
+      }
+
+      /* Hero Section */
+      .hero {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+      }
+
+      .hero-badge {
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 11px;
+        letter-spacing: 4px;
+        color: #c9a227;
+        border: 1px solid rgba(201, 162, 39, 0.4);
+        display: inline-block;
+        padding: 6px 20px;
+        margin-bottom: 32px;
+      }
+
+      .hero-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(72px, 12vw, 160px);
+        line-height: 0.9;
+      }
+
+      .hero-title .fc {
+        color: #c9a227;
+        font-size: clamp(48px, 8vw, 110px);
+        display: block;
+      }
+
+      .hero-subtitle {
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: clamp(14px, 2vw, 20px);
+        letter-spacing: 8px;
+        margin-top: 16px;
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      /* Buttons */
+      .btn-primary {
+        background: white;
+        color: black;
+        padding: 16px 40px;
+        border: none;
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 700;
+        font-size: 12px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 32px;
+        transition: all 0.3s;
+      }
+
+      .btn-primary:hover {
+        background: #c9a227;
+        transform: translateY(-2px);
+      }
+
+      .btn-outline {
+        background: transparent;
+        color: white;
+        padding: 16px 40px;
+        border: 1px solid #c9a227;
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 700;
+        font-size: 12px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 32px;
+        margin-left: 16px;
+        transition: all 0.3s;
+      }
+
+      .btn-outline:hover {
+        background: rgba(201, 162, 39, 0.2);
+        transform: translateY(-2px);
+      }
+
+      /* Sections */
+      section {
+        padding: 80px clamp(24px, 6vw, 96px);
+      }
+
+      .section-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(48px, 7vw, 96px);
+        letter-spacing: 2px;
+      }
+
+      .section-subtitle {
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 14px;
+        letter-spacing: 4px;
+        color: #c9a227;
+        margin-top: 10px;
+      }
+
+      .section-line {
+        width: 48px;
+        height: 2px;
+        background: #c9a227;
+        margin: 24px 0 40px;
+      }
+
+      /* Players Grid */
+      .players-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 2px;
+        margin-top: 40px;
+      }
+
+      .player-card {
+        background: #111;
+        padding: 24px;
+        transition: transform 0.3s;
+        cursor: pointer;
+      }
+
+      .player-card:hover {
+        transform: translateY(-8px);
+        background: #1a1a1a;
+      }
+
+      .player-number {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 80px;
+        color: rgba(255, 255, 255, 0.05);
+        line-height: 1;
+      }
+
+      .player-name {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 28px;
+        margin: 16px 0 8px;
+      }
+
+      .player-position {
+        color: #c9a227;
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 11px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+      }
+
+      /* Stats Cards */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2px;
+        margin-top: 40px;
+      }
+
+      .stat-card {
+        background: #111;
+        padding: 40px;
+        text-align: center;
+      }
+
+      .stat-number {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 48px;
+        color: #c9a227;
+      }
+
+      /* Standings Table */
+      .standings-container {
+        background: #111;
+        border-radius: 20px;
+        overflow: hidden;
+        margin-top: 40px;
+      }
+
+      .standings-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .standings-table th,
+      .standings-table td {
+        padding: 16px;
+        text-align: left;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .standings-table th {
+        color: #c9a227;
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 11px;
+        letter-spacing: 3px;
+      }
+
+      .highlight {
+        background: rgba(201, 162, 39, 0.15);
+      }
+
+      .champion-badge {
+        color: #ffd700;
+        margin-left: 8px;
+      }
+
+      /* Gallery Button */
+      .gallery-btn {
+        display: inline-block;
+        background: linear-gradient(135deg, #c9a227, #ffd700);
+        color: #000;
+        padding: 12px 30px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+        margin-top: 20px;
+        transition: all 0.3s;
+      }
+
+      .gallery-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 20px rgba(201, 162, 39, 0.4);
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        nav {
+          padding: 16px 24px;
+        }
+        .nav-links {
+          gap: 16px;
+        }
+        .nav-links a {
+          font-size: 10px;
+        }
+        section {
+          padding: 60px 20px;
+        }
+        .hero-title {
+          font-size: 48px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav id="navbar">
+      <a href="#" class="logo">PARAGON<span>FC</span></a>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#players">Squad</a></li>
+        <li><a href="#standings">Standings</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="#" id="adminLink" style="display: none">Admin</a></li>
+        <li><a href="#" id="logoutBtn" style="display: none">Logout</a></li>
+      </ul>
+    </nav>
+
+    <!-- Championship Banner -->
+    <div class="championship-banner">
+      🏆 ASTU BATCH CUP 2025 CHAMPIONS 🏆 &nbsp;|&nbsp; Paragon FC 3 - 2 Zenora
+      &nbsp;|&nbsp; UNDISPUTED CHAMPIONS 🏆
+    </div>
+
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <div class="hero-badge">🏆 ASTU BATCH CUP 2025 CHAMPIONS 🏆</div>
+        <h1 class="hero-title">
+          PARAGON
+          <span class="fc">FC</span>
+        </h1>
+        <p class="hero-subtitle">
+          Discipline · Unity · Performance · Champions
+        </p>
+        <a href="#players" class="btn-primary">View Squad</a>
+        <a href="gallery.html" class="btn-outline">Memory Gallery</a>
+      </div>
+    </section>
+
+    <section id="players">
+      <h2 class="section-title">
+        THE <span style="color: #c9a227">CHAMPIONS</span> SQUAD
+      </h2>
+      <div class="section-subtitle">22 PLAYERS · 1 TEAM · 1 DREAM</div>
+      <div class="section-line"></div>
+      <div class="players-grid" id="playersGrid">
+        <div style="text-align: center; padding: 40px">
+          Loading 22 champions...
+        </div>
+      </div>
+    </section>
+
+    <section id="standings" style="background: #111">
+      <h2 class="section-title">
+        ASTU BATCH CUP <span style="color: #c9a227">2025</span>
+      </h2>
+      <div class="section-subtitle">TOURNAMENT STANDINGS</div>
+      <div class="section-line"></div>
+      <div class="standings-container">
+        <table class="standings-table" id="standingsTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Team</th>
+              <th>P</th>
+              <th>W</th>
+              <th>D</th>
+              <th>L</th>
+              <th>GF</th>
+              <th>GA</th>
+              <th>GD</th>
+              <th>Pts</th>
+              <th>Achievement</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="11" style="text-align: center">
+                Loading tournament standings...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="text-align: center; margin-top: 30px">
+        <a href="gallery.html" class="gallery-btn"
+          >📸 View Championship Memories</a
+        >
+      </div>
+    </section>
+
+    <script>
+      const API_URL = "http://localhost:5000/api";
+
+      // Check admin access for nav links
+      function checkAdminAccess() {
+        const token = localStorage.getItem("token");
+        const adminLink = document.getElementById("adminLink");
+        const logoutBtn = document.getElementById("logoutBtn");
+
+        if (token) {
+          if (adminLink) {
+            adminLink.style.display = "inline-block";
+            adminLink.href = "advanced-dashboard.html";
+          }
+          if (logoutBtn) logoutBtn.style.display = "inline-block";
+        } else {
+          if (adminLink) adminLink.style.display = "none";
+          if (logoutBtn) logoutBtn.style.display = "none";
+        }
+      }
+
+      function logout() {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        window.location.reload();
+      }
+
+      document.getElementById("logoutBtn")?.addEventListener("click", (e) => {
+        e.preventDefault();
+        logout();
+      });
+
+      // Load players from backend
+      async function loadPlayers() {
+        const grid = document.getElementById("playersGrid");
+
+        // ✅ Loading state
+        grid.innerHTML = `<div style="text-align:center; padding:40px;">Loading players...</div>`;
+
+        try {
+          // ✅ Add timeout protection
+          const controller = new AbortController();
+          const timeout = setTimeout(() => controller.abort(), 5000);
+
+          const response = await fetch(`${API_URL}/players`, {
+            signal: controller.signal,
+          });
+
+          clearTimeout(timeout);
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const result = await response.json();
+
+          // ✅ Handle your NEW backend format
+          const players = result.data || result;
+
+          if (!Array.isArray(players)) {
+            grid.innerHTML = `<div style="text-align:center; padding:40px;">Invalid players data</div>`;
+            return;
+          }
+
+          if (players.length === 0) {
+            grid.innerHTML = `<div style="text-align:center; padding:40px;">No players found</div>`;
+            return;
+          }
+
+          // ✅ Safe rendering
+          grid.innerHTML = players
+            .map((player) => {
+              return `
+        <div class="player-card">
+          <div class="player-number">${player.number ?? "-"}</div>
+          <div class="player-name">${player.name ?? "Unknown"}</div>
+          <div class="player-position">${player.position ?? "N/A"}</div>
+          
+          <div style="margin-top:16px; font-size:14px; color:#888;">
+            ${player.height ?? "N/A"} | ${player.weight ?? "N/A"}
+          </div>
+
+          <div style="margin-top:8px; font-size:12px; color:#c9a227;">
+            ⚽ ${player.goals ?? 0} goals | 🎯 ${player.assists ?? 0} assists
+          </div>
+        </div>
+      `;
+            })
+            .join("");
+        } catch (error) {
+          console.error("Error loading players:", error);
+
+          // ✅ Better error handling
+          if (error.name === "AbortError") {
+            grid.innerHTML = `<div style="text-align:center; padding:40px; color:red;">Request timeout. Try again.</div>`;
+          } else {
+            grid.innerHTML = `<div style="text-align:center; padding:40px; color:red;">❌ Failed to load players</div>`;
+          }
+        }
+      }
+
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("/sw.js")
+          .then((reg) => console.log("SW registered", reg))
+          .catch((err) => console.log("SW registration failed", err));
+      }
+      // Load standings from backend
+      async function loadStandings() {
+        try {
+          const response = await fetch(`${API_URL}/standings`);
+          if (!response.ok)
+            throw new Error(`HTTP error! status: ${response.status}`);
+          let standings = await response.json();
+
+          if (!Array.isArray(standings)) {
+            if (standings && standings.data && Array.isArray(standings.data)) {
+              standings = standings.data;
+            } else if (standings && typeof standings === "object") {
+              standings = [standings];
+            } else {
+              throw new Error("Invalid data format");
+            }
+          }
+
+          const tbody = document.querySelector("#standingsTable tbody");
+          if (!standings || standings.length === 0) {
+            tbody.innerHTML =
+              '<tr><td colspan="11" style="text-align: center;">No standings data available</td></tr>';
+            return;
+          }
+
+          tbody.innerHTML = standings
+            .map((team, index) => {
+              const isChampion =
+                team.teamName === "Paragon" || team.teamName === "Paragon FC";
+              const achievement =
+                team.achievement ||
+                (isChampion
+                  ? "CHAMPIONS 🏆"
+                  : team.position === 2
+                    ? "Runners-up"
+                    : team.position === 3
+                      ? "Semi-finalists"
+                      : "Group Stage");
+
+              return `
+            <tr class="${isChampion ? "highlight" : ""}">
+              <td><strong>${team.position || index + 1}</strong></td>
+              <td><strong>${team.teamName || "N/A"} ${isChampion ? '<span class="champion-badge">🏆</span>' : ""}</strong></td>
+              <td>${team.played || 0}</td>
+              <td>${team.wins || 0}</td>
+              <td>${team.draws || 0}</td>
+              <td>${team.losses || 0}</td>
+              <td>${team.goalsFor || 0}</td>
+              <td>${team.goalsAgainst || 0}</td>
+              <td>${(team.goalsFor || 0) - (team.goalsAgainst || 0)}</td>
+              <td><strong>${team.points || 0}</strong></td>
+              <td><span style="color: #c9a227; font-size: 12px;">${achievement}</span></td>
+             </tr>
+          `;
+            })
+            .join("");
+        } catch (error) {
+          console.error("Error loading standings:", error);
+          document.querySelector("#standingsTable tbody").innerHTML =
+            '<tr><td colspan="11" style="text-align: center; color: #ef4444;">❌ Error loading standings</td></tr>';
+        }
+      }
+
+      // Test API connection
+      async function testAPIConnection() {
+        try {
+          const response = await fetch(`${API_URL}/players`);
+          if (response.ok) {
+            console.log("✅ API connection successful");
+            return true;
+          } else {
+            console.error("❌ API connection failed:", response.status);
+            return false;
+          }
+        } catch (error) {
+          console.error("❌ Cannot connect to API:", error);
+          return false;
+        }
+      }
+
+      // Navbar scroll effect
+      window.addEventListener("scroll", () => {
+        const nav = document.getElementById("navbar");
+        if (window.scrollY > 50) {
+          nav.classList.add("scrolled");
+        } else {
+          nav.classList.remove("scrolled");
+        }
+      });
+
+      // Load all data
+      async function init() {
+        checkAdminAccess();
+        const isConnected = await testAPIConnection();
+        if (isConnected) {
+          loadPlayers();
+          loadStandings();
+        } else {
+          document.getElementById("playersGrid").innerHTML =
+            '<div style="text-align: center; padding: 40px; color: #ef4444;">⚠️ Cannot connect to backend server. Please make sure it\'s running on http://localhost:5000</div>';
+        }
+      }
+
+      init();
+
+      // Refresh every 30 seconds
+      setInterval(() => {
+        if (document.visibilityState === "visible") {
+          loadPlayers();
+          loadStandings();
+        }
+      }, 30000);
+    </script>
+  </body>
+</html>

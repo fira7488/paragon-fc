@@ -1,78 +1,42 @@
-# Paragon FC - Full Stack Football Team Website
+# ⚽ PARAGON FC – Official Team Website
 
-## Quick Start Guide
+**ASTU Batch Cup 2025 Champions 🏆**
 
-### 1. Install MongoDB
-Download and install MongoDB from: https://www.mongodb.com/try/download/community
+Full‑stack platform for university football team management – player roster, tournament standings, memory gallery, match simulator, and admin dashboard.
 
-Or use Docker:
+![Status](https://img.shields.io/badge/status-live-brightgreen) ![Node](https://img.shields.io/badge/node-18%2B-green) ![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-blue) ![License](https://img.shields.io/badge/license-MIT-lightgrey)
+
+---
+
+## ✨ Features
+
+| Module                   | Description                                                   |
+| ------------------------ | ------------------------------------------------------------- |
+| **Player Roster**        | 22 real players with numbers, positions, goals & assists      |
+| **Tournament Standings** | ASTU Batch Cup table – Paragon FC shown as champions          |
+| **Memory Gallery**       | Upload, like, comment on match/training photos (anyone)       |
+| **Match Simulator**      | Predict scores vs any opponent                                |
+| **Admin Dashboard**      | Add/edit/delete players, moderate gallery, view registrations |
+| **Real‑time Updates**    | WebSocket notifications for new content                       |
+| **Mobile Responsive**    | Works on all devices                                          |
+
+---
+
+## 🛠️ Tech Stack
+
+- **Backend**: Node.js, Express, MongoDB (Atlas), JWT, Socket.io
+- **Frontend**: HTML5, CSS3, Vanilla JavaScript, Chart.js, GSAP
+- **Authentication**: bcryptjs + JSON Web Tokens
+- **File Upload**: Multer (images stored locally)
+- **Deployment**: Render (backend) + Vercel/Netlify (frontend)
+
+---
+
+## 🚀 Quick Start (Local Development)
+
+### 1. Clone the repository
+
 ```bash
-docker run -d -p 27017:27017 --name mongodb mongo:latest
+git clone https://github.com/fira7488/paragon-fc.git
+cd paragon-fc
 ```
-
-### 2. Install Backend Dependencies
-```bash
-cd backend
-npm install
-```
-
-### 3. Start the Backend Server
-```bash
-cd backend
-npm run dev
-```
-
-### 4. Create Admin User (First Time Only)
-```bash
-cd backend
-node createAdmin.js
-```
-- Username: admin
-- Password: admin123
-
-### 5. Open the Website
-- Open `frontend/index.html` in your browser
-- Admin Dashboard: `frontend/admin.html`
-
-## Project Structure
-```
-paragon-fc/
-├── backend/
-│   ├── server.js
-│   ├── package.json
-│   ├── .env
-│   └── createAdmin.js
-├── frontend/
-│   ├── index.html
-│   └── admin.html
-└── uploads/
-```
-
-## API Endpoints
-- GET  /api/players     - Get all players
-- POST /api/players     - Add new player (admin)
-- GET  /api/standings   - Get league standings
-- GET  /api/news        - Get news articles
-- POST /api/register    - Submit player registration
-- POST /api/auth/login  - Admin login
-
-## Troubleshooting
-
-**Port 5000 already in use:**
-Edit `backend/.env` and change the PORT value
-
-**MongoDB connection error:**
-Make sure MongoDB is running: `mongod`
-
-**CORS errors:**
-Ensure backend is running on http://localhost:5000
-
-## Features
-- ✅ Complete backend API
-- ✅ MongoDB database integration
-- ✅ Admin authentication with JWT
-- ✅ Player management
-- ✅ Registration system
-- ✅ League standings
-- ✅ News management
-- ✅ File upload support

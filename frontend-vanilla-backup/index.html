@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Paragon FC</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+        color: white;
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .container {
+        text-align: center;
+        padding: 40px;
+      }
+      h1 {
+        font-size: 48px;
+        color: #c9a227;
+      }
+      .status {
+        background: #c9a227;
+        color: #000;
+        padding: 10px 20px;
+        border-radius: 5px;
+        display: inline-block;
+        margin: 20px 0;
+      }
+      .api-status {
+        margin-top: 20px;
+        padding: 20px;
+        background: #111;
+        border-radius: 10px;
+      }
+      button {
+        background: #c9a227;
+        color: #000;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        margin: 10px;
+        border-radius: 5px;
+      }
+      button:hover {
+        background: #d4b33a;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>PARAGON FC</h1>
+      <div class="status">⚽ 3rd Year Squad</div>
+      <div class="api-status" id="apiStatus">
+        <h3>Backend Status:</h3>
+        <div id="statusText">Checking connection...</div>
+      </div>
+      <div>
+        <button onclick="checkAPI()">Test API Connection</button>
+      </div>
+      <p style="margin-top: 40px; color: #666">
+        Note: For the complete frontend with animations, please use the original
+        HTML file provided earlier.
+      </p>
+    </div>
+
+    <script>
+      const API_URL =
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1"
+          ? "http://localhost:5000/api"
+          : "https://paragon-fc-api.onrender.com/api"; // Use your actual production backend URL later
+      async function checkAPI() {
+        const statusDiv = document.getElementById("statusText");
+        statusDiv.innerHTML = "Connecting to backend...";
+
+        try {
+          const response = await fetch(API_URL + "/players");
+          if (response.ok) {
+            const players = await response.json();
+            statusDiv.innerHTML =
+              "✅ Backend is running! Found " +
+              players.length +
+              " players in database.";
+            statusDiv.style.color = "#10b981";
+          } else {
+            statusDiv.innerHTML = "❌ Backend error: " + response.status;
+            statusDiv.style.color = "#ef4444";
+          }
+        } catch (error) {
+          statusDiv.innerHTML =
+            "❌ Cannot connect to backend. Make sure the server is running on port 5000.";
+          statusDiv.style.color = "#ef4444";
+        }
+      }
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("/sw.js")
+          .then((reg) => console.log("SW registered", reg))
+          .catch((err) => console.log("SW registration failed", err));
+      }
+
+      checkAPI();
+    </script>
+  </body>
+</html>
