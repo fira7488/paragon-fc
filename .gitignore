@@ -20,3 +20,8 @@ Thumbs.db
 # IDE folders
 .vscode/
 .idea/
+# React
+frontend-react/node_modules/
+frontend-react/build/
+frontend-react/.env
+frontend-react/.env.local
